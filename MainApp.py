@@ -35,9 +35,10 @@ if __name__ == "__main__":
     while True:
         # Asks user for command
         cmd = input("Command: ")
-
-        if cmd.strip().lower() == "add":
+        cmd = cmd.strip().lower()
+        if cmd == "add":
             add_item(food, cmd)
-        if cmd.strip().lower() == "print":
+        if cmd == "print":
             print_items(food, cmd)
-
+        if cmd == "quit" or cmd == "exit":
+            break
