@@ -90,13 +90,13 @@ if __name__ == "__main__":
         # Parses command
         if cmd == "add":
             add_item(food, cmd)
-        elif cmd == "print":
+        elif cmd == "print" or cmd == "ls":
             print_items(food, cmd)
         elif cmd == "remove":
             remove_item(food, cmd)
         elif cmd == "update":
             update_item(food, cmd)
-        elif cmd == "quit" or cmd == "exit":
+        elif cmd == "quit" or cmd == "exit" or cmd == "q":
             break
         else:
             # TODO: Should have a -h or -verbose option
