@@ -1,4 +1,6 @@
 from pymongo import MongoClient
+from multiprocessing import Process
+import time
 
 
 # Function that updates an item in the database
@@ -70,9 +72,25 @@ def add_item( food, cmd ) :
     # Inserts entry
     food.insert_one(item_entry)
 
+# Multiprocessing function that sends Email Notifications
+def EmailNotifyRun ( StillRunning ):
+
+
+    while ( StillRunning ):
+        # Code that routinely checks expiration dates
+        time.sleep(1)
+        print("Sleeping")
 
 # Main Driving Function
 if __name__ == "__main__":
+
+    # Varable to signal process 2 to end
+    StillRunning = 1
+
+    # Create and start Email Notification Process
+    EmailNotifyP = Process(target=EmailNotifyRun, args=(StillRunning,))
+    EmailNotifyP.start()
+
     # Enable Mongo Client
     client = MongoClient('localhost', 27017)
 
@@ -97,7 +115,14 @@ if __name__ == "__main__":
         elif cmd == "update":
             update_item(food, cmd)
         elif cmd == "quit" or cmd == "exit" or cmd == "q":
+            StillRunning = 0
             break
         else:
             # TODO: Should have a -h or -verbose option
             print("Not a valid command")
+
+    # Ends Email Notify Process TODO: Look into Daemon Processes
+    EmailNotifyP.terminate()
+
+
+
