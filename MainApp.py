@@ -2,6 +2,8 @@ from pymongo import MongoClient
 from multiprocessing import Process
 import time
 from datetime import datetime
+import smtplib
+
 
 
 # Function that updates an item in the database
@@ -88,7 +90,6 @@ def EmailNotifyRun ( StillRunning, food ):
 
             # Gets expiration date and converts to datetime object
             ex_date = item.get("expire")
-            print(ex_date)
             ex_d = datetime.strptime(ex_date, '%m/%d/%y')
 
             # Compare dates
