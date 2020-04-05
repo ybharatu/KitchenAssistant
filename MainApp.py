@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from multiprocessing import Process
 import time
+from datetime import datetime
 
 
 # Function that updates an item in the database
@@ -73,13 +74,28 @@ def add_item( food, cmd ) :
     food.insert_one(item_entry)
 
 # Multiprocessing function that sends Email Notifications
-def EmailNotifyRun ( StillRunning ):
+def EmailNotifyRun ( StillRunning, food ):
 
 
     while ( StillRunning ):
         # Code that routinely checks expiration dates
-        time.sleep(1)
-        print("Sleeping")
+
+        # Gets today's date as a date object
+        today = datetime.today()
+
+        # Iterates through items
+        for item in food.find():
+
+            # Gets expiration date and converts to datetime object
+            ex_date = item.get("expire")
+            print(ex_date)
+            ex_d = datetime.strptime(ex_date, '%m/%d/%y')
+
+            # Compare dates
+            if( today > ex_d ) :
+                print( item.get("name") + " is expired!")
+        time.sleep(1000)
+
 
 # Main Driving Function
 if __name__ == "__main__":
@@ -87,18 +103,18 @@ if __name__ == "__main__":
     # Varable to signal process 2 to end
     StillRunning = 1
 
-    # Create and start Email Notification Process
-    EmailNotifyP = Process(target=EmailNotifyRun, args=(StillRunning,))
-    EmailNotifyP.start()
-
     # Enable Mongo Client
-    client = MongoClient('localhost', 27017)
+    client = MongoClient('localhost', 27017, connect=False)
 
     # Create Database
     db = client['Ingredients']
 
     # Create Database list
     food = db.food
+
+    # Create and start Email Notification Process
+    EmailNotifyP = Process(target=EmailNotifyRun, args=(StillRunning,food))
+    EmailNotifyP.start()
 
     while True:
         # Asks user for command and formats for parsing
