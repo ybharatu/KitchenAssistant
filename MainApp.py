@@ -3,6 +3,7 @@ from multiprocessing import Process
 import time
 from datetime import datetime
 import smtplib
+import storage
 
 
 
@@ -94,8 +95,18 @@ def EmailNotifyRun ( StillRunning, food ):
 
             # Compare dates
             if( today > ex_d ) :
-                print( item.get("name") + " is expired!")
-        time.sleep(1000)
+                #print( item.get("name") + " is expired!")
+
+                # Email Code
+                s = smtplib.SMTP('smtp.gmail.com', 587)
+                s.starttls()
+                s.login(storage.GMAIL_USER, storage.GMAIL_PASS)
+                message = item.get("name") + " Expired"
+                s.sendmail("KitchenApp@gmail.com", storage.GMAIL_USER, message)
+                s.quit()
+
+        # Only notifies once a day (86400 seconds)
+        time.sleep(86400)
 
 
 # Main Driving Function
