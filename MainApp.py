@@ -4,7 +4,10 @@ import time
 from datetime import datetime
 import smtplib
 import storage
+import spoonacular as sp
 
+# Start Spoonacular API https://github.com/johnwmillr/SpoonacularAPI
+sp_api = sp.API(storage.SPOONACULAR_API_KEY)
 
 
 # Function that updates an item in the database
@@ -76,6 +79,48 @@ def add_item( food, cmd ) :
     # Inserts entry
     food.insert_one(item_entry)
 
+# Function that Returns recipes using existing ingredients
+def search_recipe_by_ingredients ( food ):
+
+    # Empty comma separated list of ingredients
+    ingredients = ""
+    # Iterates through all items in database list and concats ingrediants
+    for item in food.find():
+        ingredients = ingredients + item.get("name") + ","
+
+    # Uses current ingredients to search for recipe. Paramters: ingredients (comma seperated string of ingredients),
+    # number (how many recipes), limitLicense (something to due with websites with Licensing),
+    # ranking ( 1 = prioritize using all ingredients, 2 = prioritize having less missing ingredients),
+    # fillIngredients (not sure, wasn't on documentation)
+    response = sp_api.search_recipes_by_ingredients(ingredients=ingredients, number=1, limitLicense=True , ranking=2, fillIngredients=True)
+
+    # Json to array conversion
+    data = response.json()
+
+    # Iterates through recipes returned
+    for item in data:
+        # All ingredients are available: Print out steps and ingredients
+        if item['missedIngredientCount'] == 0:
+            print("You have everything needed to make " + item['title'])
+
+            # Prints required Ingredients
+            print("Ingredients:")
+            for ingred in item['usedIngredients']:
+                print(str(ingred['amount']) + " " + ingred['unit'] + " " + ingred['name'])
+
+            # Finds instructions and prints them step by step
+            instr = sp_api.get_analyzed_recipe_instructions(id=item["id"],stepBreakdown=True)
+            instr_data = instr.json()
+            for step in instr_data[0]['steps']:
+                print("Step #" + str(step['number']) + ": " + step['step'])
+
+        # Some ingredients are missing: Print Missing Ingredients
+        elif item['missedIngredientCount'] > 0:
+            print("Need Ingredients to make " + item['title'])
+            print("Missing Ingredients:")
+            for ingred in item['missedIngredients']:
+                print(str(ingred['amount']) + " " + ingred['unit'] + " " + ingred['name'])
+
 # Multiprocessing function that sends Email Notifications
 def EmailNotifyRun ( StillRunning, food ):
 
@@ -125,8 +170,8 @@ if __name__ == "__main__":
     food = db.food
 
     # Create and start Email Notification Process
-    EmailNotifyP = Process(target=EmailNotifyRun, args=(StillRunning,food))
-    EmailNotifyP.start()
+    #EmailNotifyP = Process(target=EmailNotifyRun, args=(StillRunning,food))
+    #EmailNotifyP.start()
 
     while True:
         # Asks user for command and formats for parsing
@@ -142,6 +187,8 @@ if __name__ == "__main__":
             remove_item(food, cmd)
         elif cmd == "update":
             update_item(food, cmd)
+        elif cmd == "recipes":
+            search_recipe_by_ingredients(food)
         elif cmd == "quit" or cmd == "exit" or cmd == "q":
             StillRunning = 0
             break
@@ -150,7 +197,7 @@ if __name__ == "__main__":
             print("Not a valid command")
 
     # Ends Email Notify Process TODO: Look into Daemon Processes
-    EmailNotifyP.terminate()
+    #EmailNotifyP.terminate()
 
 
 
