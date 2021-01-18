@@ -2,12 +2,6 @@ from pymongo import MongoClient
 from KitchenFunctions import *
 from multiprocessing import Process
 import storage
-import spoonacular as sp
-
-# Start Spoonacular API https://github.com/johnwmillr/SpoonacularAPI
-sp_api = sp.API(storage.SPOONACULAR_API_KEY)
-
-
 
 # Main Driving Function
 if __name__ == "__main__":

@@ -3,6 +3,10 @@ import time
 from datetime import datetime
 import smtplib
 import storage
+import spoonacular as sp
+
+# Start Spoonacular API https://github.com/johnwmillr/SpoonacularAPI
+sp_api = sp.API(storage.SPOONACULAR_API_KEY)
 
 # Function that updates an item in the database
 def update_item( food, cmd ):
@@ -25,7 +29,6 @@ def update_item( food, cmd ):
         print("Item " + item_name + " is not in database")
         return 0
 
-
 # Function that removes an item from the database
 def remove_item( food, cmd, item_name="" ):
     # Asks name of item to remove (TODO: Parse information from initial command and ask remaining info)
@@ -33,10 +36,10 @@ def remove_item( food, cmd, item_name="" ):
         item_name = input("Name: ")
 
     # Creates query to search
-    myquery = { "name" : item_name }
+    myquery = { "name" : item_name.lower().capitalize() }
 
     # Gets appropriate item
-    r_item = food.find_one({ "name" : item_name})
+    r_item = food.find_one({ "name" : item_name.lower().capitalize()})
 
     if r_item is not None:
         # Removes item
@@ -46,14 +49,12 @@ def remove_item( food, cmd, item_name="" ):
         print("Item " + item_name + " is not in database")
         return 0
 
-
 # Function that prints out all items
 def print_items( food, cmd ):
 
     # Iterates through all items in database list and prints
     for item in food.find():
         print(item)
-
 
 # Function that adds item to database
 def add_item( food, cmd ) :
@@ -65,7 +66,7 @@ def add_item( food, cmd ) :
 
     # Creates entry for list
     item_entry = {
-        'name': item_name,
+        'name': item_name.lower().capitalize(),
         'quantity': quantity,
         'expire': expiration_date
     }
