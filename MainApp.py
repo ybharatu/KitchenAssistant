@@ -1,5 +1,8 @@
 from pymongo import MongoClient
 from KitchenFunctions import *
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+from KitchenAppGUI import *
 from multiprocessing import Process
 import storage
 
