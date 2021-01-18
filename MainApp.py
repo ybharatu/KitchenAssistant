@@ -1,10 +1,20 @@
 from pymongo import MongoClient
 from KitchenFunctions import *
-from PySide2.QtGui import *
-from PySide2.QtCore import *
+from PyQt5 import QtCore, QtGui, QtWidgets
 from KitchenAppGUI import *
 from multiprocessing import Process
 import storage
+
+
+class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
+
+    # Init Function
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
+        # Button connections
+
 
 # Main Driving Function
 if __name__ == "__main__":
@@ -24,6 +34,15 @@ if __name__ == "__main__":
     # Create and start Email Notification Process
     #EmailNotifyP = Process(target=EmailNotifyRun, args=(StillRunning,food))
     #EmailNotifyP.start()
+
+    # Create GUI Form
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = KitchenApp()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
 
     while True:
         # Asks user for command and formats for parsing
