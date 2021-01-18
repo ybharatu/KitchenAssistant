@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>582</height>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="homeButton">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -58,7 +58,7 @@
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="dataButton">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -81,7 +81,7 @@
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_7">
+    <widget class="QPushButton" name="saveButton">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -104,7 +104,7 @@
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_8">
+    <widget class="QPushButton" name="downloadButton">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -234,7 +234,7 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="addButton">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -257,7 +257,7 @@
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="removeButton">
       <property name="geometry">
        <rect>
         <x>480</x>
@@ -309,7 +309,7 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit">
+     <widget class="QTextEdit" name="NameTextEdit">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -322,7 +322,7 @@
        <string notr="true">background-color: rgb(14, 13, 14)</string>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit_2">
+     <widget class="QTextEdit" name="QuantityTextEdit">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -335,7 +335,7 @@
        <string notr="true">background-color: rgb(14, 13, 14)</string>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit_3">
+     <widget class="QTextEdit" name="ExpireTextEdit">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -405,7 +405,7 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QPushButton" name="AddItemButton">
       <property name="geometry">
        <rect>
         <x>330</x>
@@ -500,7 +500,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>664</width>
+         <width>663</width>
          <height>319</height>
         </rect>
        </property>
