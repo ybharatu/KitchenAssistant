@@ -10,11 +10,46 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
 
     # Init Function
     def __init__(self, parent=None):
-        super().__init__(parent)
+        #super().__init__(parent)
+        super(KitchenApp, self).__init__(parent)
         self.setupUi(self)
 
-        # Button connections
+        # Text Edit size adjustments (TextEdit cannot vertically align (REALLY STUPID))
+        margin = 2
+        self.NameTextEdit.document().setDocumentMargin(margin)
+        fontMetrics = QtGui.QFontMetrics(self.NameTextEdit.font())
+        height = fontMetrics.height() + (margin + self.NameTextEdit.frameWidth()) * 2
+        self.NameTextEdit.setFixedHeight(height)
 
+        # Button connections
+        self.addButton.clicked.connect(self.addPage)
+        self.AddItemButton.clicked.connect(self.addItem)
+        self.dataButton.clicked.connect(self.changeDataFrame)
+        self.homeButton.clicked.connect(self.changeHomeFrame)
+        # self.downloadButton.clicked.connect(self.downloadResults)
+        self.removeButton.clicked.connect(self.removeItem)
+
+    def changeDataFrame(self):
+        print("Changed to Data frame")
+        self.stackedWidget.setCurrentIndex(1)
+
+    def changeHomeFrame(self):
+        print("Changed to Home frame")
+        self.stackedWidget.setCurrentIndex(0)
+
+    def addPage(self):
+        print("Changed to Add Item Page")
+        self.stackedWidget.setCurrentIndex(2)
+        return
+
+    def addItem(self):
+        return
+
+    def downloadResults(self):
+        return
+
+    def removeItem(self):
+        return
 
 # Main Driving Function
 if __name__ == "__main__":
@@ -38,14 +73,20 @@ if __name__ == "__main__":
 
     # Create GUI Form
     import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = KitchenApp()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    # app = QtWidgets.QApplication(sys.argv)
+    # MainWindow = QtWidgets.QMainWindow()
+    # ui = KitchenApp()
+    # ui.setupUi(MainWindow)
+    # MainWindow.show()
+    # sys.exit(app.exec_())
 
-    while True:
+    currentApp = QtWidgets.QApplication(sys.argv)
+    currentForm = KitchenApp()
+
+    currentForm.show()
+    currentApp.exec_()
+
+    while False:
         # Asks user for command and formats for parsing
         cmd = input("Command: ")
         cmd = cmd.strip().lower()
