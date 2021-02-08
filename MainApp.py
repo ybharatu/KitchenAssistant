@@ -15,19 +15,28 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # Text Edit size adjustments (TextEdit cannot vertically align (REALLY STUPID))
-        margin = 2
+        margin = 10
         self.NameTextEdit.document().setDocumentMargin(margin)
         fontMetrics = QtGui.QFontMetrics(self.NameTextEdit.font())
         height = fontMetrics.height() + (margin + self.NameTextEdit.frameWidth()) * 2
         self.NameTextEdit.setFixedHeight(height)
+        self.QuantityTextEdit.document().setDocumentMargin(margin)
+        height = fontMetrics.height() + (margin + self.QuantityTextEdit.frameWidth()) * 2
+        self.QuantityTextEdit.setFixedHeight(height)
+        self.ExpireTextEdit.document().setDocumentMargin(margin)
+        height = fontMetrics.height() + (margin + self.ExpireTextEdit.frameWidth()) * 2
+        self.ExpireTextEdit.setFixedHeight(height)
 
         # Button connections
         self.addButton.clicked.connect(self.addPage)
         self.AddItemButton.clicked.connect(self.addItem)
         self.dataButton.clicked.connect(self.changeDataFrame)
         self.homeButton.clicked.connect(self.changeHomeFrame)
-        # self.downloadButton.clicked.connect(self.downloadResults)
+        self.downloadButton.clicked.connect(self.downloadResults)
         self.removeButton.clicked.connect(self.removeItem)
+
+        # Set up Initial Table
+        self.initTable()
 
     def changeDataFrame(self):
         print("Changed to Data frame")
@@ -42,7 +51,47 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(2)
         return
 
+    def resetItemForm(self):
+        self.NameTextEdit.setText("")
+        self.QuantityTextEdit.setText("")
+        self.ExpireTextEdit.setText("")
+
     def addItem(self):
+        row = self.tableWidget.rowCount()
+        self.tableWidget.setRowCount(row + 1)
+        col = 0
+
+        if self.NameTextEdit.toPlainText() != "" and self.QuantityTextEdit.toPlainText() != "":
+            row_data = [self.NameTextEdit.toPlainText(), self.QuantityTextEdit.toPlainText(), self.ExpireTextEdit.toPlainText()]
+            gui_add_item(food,self.NameTextEdit.toPlainText(),self.QuantityTextEdit.toPlainText(),self.ExpireTextEdit.toPlainText())
+        else:
+            print("Not all values")
+            return
+
+        for item in row_data:
+            cell = QtWidgets.QTableWidgetItem(str(item))
+            cell.setForeground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
+            self.tableWidget.setItem(row, col, cell)
+            col += 1
+        self.resetItemForm()
+        self.changeDataFrame()
+
+    def initTable(self):
+        # Iterates through all items in database list and sets up table
+        for entry in food.find():
+            row = self.tableWidget.rowCount()
+            self.tableWidget.setRowCount(row + 1)
+            col = 0
+            name = entry.get("name")
+            quantity = entry.get("quantity")
+            expire = entry.get("expire")
+            row_data = [name, quantity, expire]
+            for item in row_data:
+                cell = QtWidgets.QTableWidgetItem(str(item))
+                cell.setForeground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
+                self.tableWidget.setItem(row, col, cell)
+                col += 1
+
         return
 
     def downloadResults(self):

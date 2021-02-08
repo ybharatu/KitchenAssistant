@@ -8,6 +8,9 @@ import spoonacular as sp
 # Start Spoonacular API https://github.com/johnwmillr/SpoonacularAPI
 sp_api = sp.API(storage.SPOONACULAR_API_KEY)
 
+
+#### Functions that allow for CLI interface
+
 # Function that updates an item in the database
 def update_item( food, cmd ):
     # Asks name of item to update (TODO: Parse information from initial command and ask remaining info)
@@ -146,4 +149,19 @@ def EmailNotifyRun ( StillRunning, food ):
 
         # Only notifies once a day (86400 seconds)
         time.sleep(86400)
+
+#### Functions that allow for GUI interface
+
+# Function that adds item to database
+def gui_add_item( food, item_name, quantity, expiration_date ) :
+
+    # Creates entry for list
+    item_entry = {
+        'name': item_name.lower().capitalize(),
+        'quantity': quantity,
+        'expire': expiration_date
+    }
+
+    # Inserts entry
+    food.insert_one(item_entry)
 
