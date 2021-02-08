@@ -33,10 +33,15 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         self.dataButton.clicked.connect(self.changeDataFrame)
         self.homeButton.clicked.connect(self.changeHomeFrame)
         self.downloadButton.clicked.connect(self.downloadResults)
-        self.removeButton.clicked.connect(self.removeItem)
+        self.removeItemButton.clicked.connect(self.removeItem)
+        self.removeButton.clicked.connect(self.removePage)
 
         # Set up Initial Table
         self.initTable()
+
+        # Set up checkboxes in remove Item screen
+        self.checks = []
+        self.initRemoveList()
 
     def changeDataFrame(self):
         print("Changed to Data frame")
@@ -92,13 +97,46 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
                 self.tableWidget.setItem(row, col, cell)
                 col += 1
 
-        return
+    def initRemoveList(self):
+
+        for entry in food.find():
+            print(entry.get("name"))
+            check = QtWidgets.QCheckBox()
+
+            check.setText(entry.get("name"))
+            self.verticalLayout.addWidget(check)
+            if len(self.checks) != 0:
+                newHeight = self.checks[-1].geometry().height() + 1 * len(self.checks)  # Compensate for new checkbox
+                check.resize(self.geometry().width(), newHeight)
+            self.checks.append(check)
+
 
     def downloadResults(self):
         return
 
     def removeItem(self):
-        return
+        to_remove = []
+        for box in self.checks:
+            if box.isChecked():
+                to_remove.append(box)
+
+        for rem in to_remove:
+            item_name = rem.text()
+            #print(item_name)
+            gui_remove_item(food, item_name)
+            self.verticalLayout.removeWidget(rem)
+            self.checks.remove(rem)
+
+        for box in self.checks:
+            self.verticalLayout.removeWidget(box)
+            box.deleteLater()
+
+        self.checks = []
+        self.initRemoveList()
+
+    def removePage(self):
+        print("Changed to Remove Page")
+        self.stackedWidget.setCurrentIndex(3)
 
 # Main Driving Function
 if __name__ == "__main__":

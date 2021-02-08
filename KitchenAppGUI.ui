@@ -142,7 +142,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QLabel" name="welcomeLabel">
@@ -185,6 +185,11 @@
         <width>731</width>
         <height>361</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QHeaderView::section { background-color:RGB(17,17,18);color: rgb(112, 0, 255)}</string>
@@ -460,7 +465,7 @@ color: rgb(255,255,255)</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="removePage">
+    <widget class="QWidget" name="removeItemPage">
      <widget class="QLabel" name="label_7">
       <property name="geometry">
        <rect>
@@ -488,7 +493,7 @@ color: rgb(255,255,255)</string>
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_6">
+     <widget class="QPushButton" name="removeItemButton">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -511,31 +516,16 @@ color: rgb(255,255,255)</string>
        </size>
       </property>
      </widget>
-     <widget class="QScrollArea" name="scrollArea">
+     <widget class="QWidget" name="verticalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>120</y>
-        <width>681</width>
-        <height>321</height>
+        <x>50</x>
+        <y>150</y>
+        <width>601</width>
+        <height>291</height>
        </rect>
       </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOn</enum>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>664</width>
-         <height>319</height>
-        </rect>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout"/>
      </widget>
     </widget>
    </widget>

@@ -165,3 +165,19 @@ def gui_add_item( food, item_name, quantity, expiration_date ) :
     # Inserts entry
     food.insert_one(item_entry)
 
+def gui_remove_item( food, item_name="" ):
+
+    # Creates query to search
+    myquery = { "name" : item_name.lower().capitalize() }
+
+    # Gets appropriate item
+    r_item = food.find_one({ "name" : item_name.lower().capitalize()})
+
+    if r_item is not None:
+        # Removes item
+        food.delete_one( { "_id" : r_item.get("_id") })
+        return 1
+    else:
+        print("Item " + item_name + " is not in database")
+        return 0
+
