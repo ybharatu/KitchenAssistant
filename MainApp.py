@@ -41,7 +41,8 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Set up checkboxes in remove Item screen
         self.checks = []
-        self.initRemoveList()
+        self.to_remove = []
+        #self.initRemoveList()
 
     def changeDataFrame(self):
         print("Changed to Data frame")
@@ -97,6 +98,15 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
                 self.tableWidget.setItem(row, col, cell)
                 col += 1
 
+    def updateTable(self):
+        for row in range(1,self.tableWidget.rowCount()):
+            for rem in self.to_remove:
+                print("Does " + self.tableWidget.item(row,0).text() + " == " + rem.text() + " ???")
+                if self.tableWidget.item(row,0).text() == rem.text():
+                    self.tableWidget.removeRow(row)
+                    self.to_remove.remove(rem)
+                    break
+
     def initRemoveList(self):
 
         for entry in food.find():
@@ -115,27 +125,32 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         return
 
     def removeItem(self):
-        to_remove = []
+
         for box in self.checks:
             if box.isChecked():
-                to_remove.append(box)
+                self.to_remove.append(box)
 
-        for rem in to_remove:
+        for rem in self.to_remove:
             item_name = rem.text()
             #print(item_name)
             gui_remove_item(food, item_name)
+            rem.setChecked(False)
+            rem.deleteLater()
             self.verticalLayout.removeWidget(rem)
             self.checks.remove(rem)
 
         for box in self.checks:
             self.verticalLayout.removeWidget(box)
             box.deleteLater()
+            del box
 
         self.checks = []
-        self.initRemoveList()
+        self.updateTable()
+        self.changeDataFrame()
 
     def removePage(self):
         print("Changed to Remove Page")
+        self.initRemoveList()
         self.stackedWidget.setCurrentIndex(3)
 
 # Main Driving Function
