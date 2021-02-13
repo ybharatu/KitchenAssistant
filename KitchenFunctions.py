@@ -6,6 +6,7 @@ import storage
 import spoonacular as sp
 
 # Start Spoonacular API https://github.com/johnwmillr/SpoonacularAPI
+# Dashboard to view usage: https://spoonacular.com/food-api/console#Dashboard
 sp_api = sp.API(storage.SPOONACULAR_API_KEY)
 
 

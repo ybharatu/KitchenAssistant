@@ -202,12 +202,12 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
     def initRecipePage(self):
 
         # Get 3 recipes
-        self.recipes = gui_search_recipe_by_ingredients ( food )
+        self.recipes = gui_search_recipe_by_ingredients( food )
 
         # Populate 3 buttons with 3 recipes
-        self.recipe1Button.setText(self.recipes[0]['title'])
-        self.recipe2Button.setText(self.recipes[1]['title'])
-        self.recipe3Button.setText(self.recipes[2]['title'])
+        self.recipe1Label.setText(self.recipes[0]['title'])
+        self.recipe2Label.setText(self.recipes[1]['title'])
+        self.recipe3Label.setText(self.recipes[2]['title'])
 
     # Displays individual recipe information
     def showRecipe(self,num):

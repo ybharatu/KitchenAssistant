@@ -597,14 +597,14 @@ color: rgb(255,255,255)</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>13</pointsize>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color:rgb(254, 252, 255)</string>
+       <string notr="true">background-color:rgba(0,0,0,100)</string>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="recipe2Button">
@@ -622,10 +622,10 @@ color: rgb(255,255,255)</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color:rgb(254, 252, 255)</string>
+       <string notr="true">background-color:rgba(0,0,0,100)</string>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="recipe3Button">
@@ -643,20 +643,108 @@ color: rgb(255,255,255)</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color:rgb(254, 252, 255)</string>
+       <string notr="true">background-color:rgba(0, 0, 0,100)</string>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string/>
       </property>
      </widget>
+     <widget class="QLabel" name="recipe1Label">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>100</y>
+        <width>461</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255,255,255)</string>
+      </property>
+      <property name="text">
+       <string>Recipe 1</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="recipe2Label">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>210</y>
+        <width>461</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255,255,255)</string>
+      </property>
+      <property name="text">
+       <string>Recipe 2</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="recipe3Label">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>320</y>
+        <width>461</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255,255,255)</string>
+      </property>
+      <property name="text">
+       <string>Recipe 3</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>recipe3Label</zorder>
+     <zorder>recipe2Label</zorder>
+     <zorder>refreshButton</zorder>
+     <zorder>recipe2Button</zorder>
+     <zorder>recipe3Button</zorder>
+     <zorder>recipe1Label</zorder>
+     <zorder>recipe1Button</zorder>
     </widget>
     <widget class="QWidget" name="recipeViewPage">
      <widget class="QLabel" name="recipeNameLabel">
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>60</x>
         <y>20</y>
-        <width>351</width>
+        <width>561</width>
         <height>71</height>
        </rect>
       </property>
@@ -674,6 +762,9 @@ color: rgb(255,255,255)</string>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QListWidget" name="ingrediantList">
       <property name="geometry">
@@ -687,6 +778,15 @@ color: rgb(255,255,255)</string>
       <property name="styleSheet">
        <string notr="true">color: rgb(255,255,255)</string>
       </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="isWrapping" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QListWidget" name="instructionList">
       <property name="geometry">
@@ -699,6 +799,15 @@ color: rgb(255,255,255)</string>
       </property>
       <property name="styleSheet">
        <string notr="true">color: rgb(255,255,255)</string>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="isWrapping" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="ingrediantLabel">
