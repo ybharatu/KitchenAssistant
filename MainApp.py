@@ -5,7 +5,6 @@ from KitchenAppGUI import *
 from multiprocessing import Process
 import storage
 
-
 class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
 
     # Init Function
