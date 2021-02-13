@@ -217,9 +217,6 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.checkBox = QtWidgets.QCheckBox(self.verticalLayoutWidget)
-        self.checkBox.setObjectName("checkBox")
-        self.verticalLayout.addWidget(self.checkBox)
         self.stackedWidget.addWidget(self.removeItemPage)
         self.recipeListPage = QtWidgets.QWidget()
         self.recipeListPage.setObjectName("recipeListPage")
@@ -336,7 +333,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -355,7 +352,6 @@ class Ui_MainWindow(object):
         self.QuantityLabel.setText(_translate("MainWindow", "Quantity"))
         self.expirationLabel.setText(_translate("MainWindow", "Expiration"))
         self.label_7.setText(_translate("MainWindow", "Remove Item(s)"))
-        self.checkBox.setText(_translate("MainWindow", "CheckBox"))
         self.recipe1Label.setText(_translate("MainWindow", "Recipe 1"))
         self.recipe2Label.setText(_translate("MainWindow", "Recipe 2"))
         self.recipe3Label.setText(_translate("MainWindow", "Recipe 3"))
