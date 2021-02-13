@@ -34,6 +34,11 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         self.downloadButton.clicked.connect(self.downloadResults)
         self.removeItemButton.clicked.connect(self.removeItem)
         self.removeButton.clicked.connect(self.removePage)
+        self.recipeButton.clicked.connect(self.recipePage)
+        self.recipe1Button.clicked.connect(lambda: self.showRecipe(0))
+        self.recipe2Button.clicked.connect(lambda: self.showRecipe(1))
+        self.recipe3Button.clicked.connect(lambda: self.showRecipe(2))
+
 
         # Set up Initial Table
         self.initTable()
@@ -41,6 +46,11 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         # Set up checkboxes in remove Item screen
         self.checks = []
         self.to_remove = []
+
+        # Veriables for recipes
+        self.recipes = []
+        # Recipe display status. 0 -> not shown, 1 -> recipe 1, 2 -> recipe 2, 3 -> recipe 3
+        self.recipe_status = 0
 
     # Changes screen to table view
     def changeDataFrame(self):
@@ -145,7 +155,6 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
             # Updates list of all checkbox objects
             self.checks.append(check)
 
-
     # TODO: Downloads csv file of food list
     def downloadResults(self):
         return
@@ -181,6 +190,74 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         print("Changed to Remove Page")
         self.initRemoveList()
         self.stackedWidget.setCurrentIndex(3)
+
+    # Changes screen to Recipe view
+    def recipePage(self):
+        print("Changed to Recipe Page")
+        if len(self.recipes) == 0:
+            self.initRecipePage()
+        self.stackedWidget.setCurrentIndex(4)
+
+    # Initializes Recipe page by searching for 3 recipes
+    def initRecipePage(self):
+
+        # Get 3 recipes
+        self.recipes = gui_search_recipe_by_ingredients ( food )
+
+        # Populate 3 buttons with 3 recipes
+        self.recipe1Button.setText(self.recipes[0]['title'])
+        self.recipe2Button.setText(self.recipes[1]['title'])
+        self.recipe3Button.setText(self.recipes[2]['title'])
+
+    # Displays individual recipe information
+    def showRecipe(self,num):
+
+        # Check if there are no recipes or the same recipe requested to avoid api calls
+        print("Does recipe_status = " + str(self.recipe_status) + " == " + str(num+1) + " ?")
+        if self.recipe_status != 0 and self.recipe_status == num + 1:
+            # Changed frame to Individual recipe view
+            self.stackedWidget.setCurrentIndex(5)
+            return
+
+        # Set to the appropriate recipe
+        recipe = self.recipes[num]
+        self.recipe_status = num + 1
+
+        # Cleans any existing items in the table
+        self.ingrediantList.clear()
+        self.instructionList.clear()
+
+        # Set Title label to name of recipe TODO: Need to make sure label resizes or changes the font if too large
+        self.recipeNameLabel.setText(recipe['title'])
+
+        # Get used and missing ingredients
+        miss_ingred = gui_get_missing_ingredients(recipe)
+        used_ingred = gui_get_used_ingredients(recipe)
+
+        # Get step by step instructions
+        instr = gui_get_instructions(recipe)
+
+        # Iterate through used ingredients and add to list as green
+        for ingred in used_ingred:
+            list_item = QtWidgets.QListWidgetItem(ingred)
+            list_item.setForeground(QtGui.QBrush(QtGui.QColor(33, 255, 6)))
+            self.ingrediantList.addItem(list_item)
+
+        # Iterate through missing ingredients and add to list as red
+        for ingred in miss_ingred:
+            list_item = QtWidgets.QListWidgetItem(ingred)
+            list_item.setForeground(QtGui.QBrush(QtGui.QColor(252, 1, 7)))
+            self.ingrediantList.addItem(list_item)
+
+        # Iterate through instructions and add to list
+        for inst in instr:
+            list_item = QtWidgets.QListWidgetItem(inst)
+            list_item.setForeground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
+            self.instructionList.addItem(list_item)
+
+        # Changed frame to Individual recipe view
+        self.stackedWidget.setCurrentIndex(5)
+
 
 # Main Driving Function
 if __name__ == "__main__":

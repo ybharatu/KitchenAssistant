@@ -181,3 +181,55 @@ def gui_remove_item( food, item_name="" ):
         print("Item " + item_name + " is not in database")
         return 0
 
+# Function that Returns json of 3 recipes
+def gui_search_recipe_by_ingredients ( food ):
+
+    # Empty comma separated list of ingredients
+    ingredients = ""
+    # Iterates through all items in database list and concats ingrediants
+    for item in food.find():
+        ingredients = ingredients + item.get("name") + ","
+
+    # Uses current ingredients to search for recipe. Paramters: ingredients (comma seperated string of ingredients),
+    # number (how many recipes), limitLicense (something to due with websites with Licensing),
+    # ranking ( 1 = prioritize using all ingredients, 2 = prioritize having less missing ingredients),
+    # fillIngredients (not sure, wasn't on documentation)
+    response = sp_api.search_recipes_by_ingredients(ingredients=ingredients, number=3, limitLicense=True , ranking=2, fillIngredients=True)
+
+    # Json to array conversion
+    data = response.json()
+
+    return data
+
+# Helper Function that returns json of list of missing ingredients
+def gui_get_missing_ingredients(recipe):
+    miss_ingred = []
+    for ingred in recipe['missedIngredients']:
+        #print(str(ingred['amount']) + " " + ingred['unit'] + " " + ingred['name'])
+        miss_ingred.append(str(ingred['amount']) + " " + ingred['unit'] + " " + ingred['name'])
+
+    return miss_ingred
+
+# Helper Function that returns json of list of available ingredients
+def gui_get_used_ingredients(recipe):
+    used_ingred = []
+    for ingred in recipe['usedIngredients']:
+        #print(str(ingred['amount']) + " " + ingred['unit'] + " " + ingred['name'])
+        used_ingred.append(str(ingred['amount']) + " " + ingred['unit'] + " " + ingred['name'])
+
+    return used_ingred
+
+# Helper Function that returns json of list of available ingredients
+def gui_get_instructions(recipe):
+    return_instr = []
+    # Finds instructions and prints them step by step
+    instr = sp_api.get_analyzed_recipe_instructions(id=recipe["id"], stepBreakdown=True)
+    instr_data = instr.json()
+    if len(instr_data) != 0:
+        for step in instr_data[0]['steps']:
+            #print("Step #" + str(step['number']) + ": " + step['step'])
+            return_instr.append("Step #" + str(step['number']) + ": " + step['step'])
+    else:
+        return_instr.append("No instructions found for recipe")
+
+    return return_instr
