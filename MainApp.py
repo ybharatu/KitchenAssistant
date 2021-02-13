@@ -35,9 +35,10 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         self.removeItemButton.clicked.connect(self.removeItem)
         self.removeButton.clicked.connect(self.removePage)
         self.recipeButton.clicked.connect(self.recipePage)
-        self.recipe1Button.clicked.connect(lambda: self.showRecipe(0))
-        self.recipe2Button.clicked.connect(lambda: self.showRecipe(1))
-        self.recipe3Button.clicked.connect(lambda: self.showRecipe(2))
+        self.recipe1Button.clicked.connect(lambda: self.showRecipe(self.curr_recipe))
+        self.recipe2Button.clicked.connect(lambda: self.showRecipe(self.curr_recipe+1))
+        self.recipe3Button.clicked.connect(lambda: self.showRecipe(self.curr_recipe+2))
+        self.refreshButton.clicked.connect(self.refreshRecipes)
 
 
         # Set up Initial Table
@@ -51,6 +52,8 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         self.recipes = []
         # Recipe display status. 0 -> not shown, 1 -> recipe 1, 2 -> recipe 2, 3 -> recipe 3
         self.recipe_status = 0
+        # Variable to track which section of 3 recipes are displayed
+        self.curr_recipe = 0
 
     # Changes screen to table view
     def changeDataFrame(self):
@@ -205,9 +208,21 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         self.recipes = gui_search_recipe_by_ingredients( food )
 
         # Populate 3 buttons with 3 recipes
-        self.recipe1Label.setText(self.recipes[0]['title'])
-        self.recipe2Label.setText(self.recipes[1]['title'])
-        self.recipe3Label.setText(self.recipes[2]['title'])
+        self.recipe1Label.setText(self.recipes[self.curr_recipe]['title'])
+        self.recipe2Label.setText(self.recipes[self.curr_recipe+1]['title'])
+        self.recipe3Label.setText(self.recipes[self.curr_recipe+2]['title'])
+
+    # Updates list with next 3 recipes
+    def refreshRecipes(self):
+
+        # Incrament curr_recipe by 3
+        self.curr_recipe = (self.curr_recipe + 3) % 9
+
+        # Populate 3 buttons with 3 recipes
+        self.recipe1Label.setText(self.recipes[self.curr_recipe]['title'])
+        self.recipe2Label.setText(self.recipes[self.curr_recipe + 1]['title'])
+        self.recipe3Label.setText(self.recipes[self.curr_recipe + 2]['title'])
+
 
     # Displays individual recipe information
     def showRecipe(self,num):

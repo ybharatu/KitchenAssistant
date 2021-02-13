@@ -195,7 +195,7 @@ def gui_search_recipe_by_ingredients ( food ):
     # number (how many recipes), limitLicense (something to due with websites with Licensing),
     # ranking ( 1 = prioritize using all ingredients, 2 = prioritize having less missing ingredients),
     # fillIngredients (not sure, wasn't on documentation)
-    response = sp_api.search_recipes_by_ingredients(ingredients=ingredients, number=3, limitLicense=True , ranking=2, fillIngredients=True)
+    response = sp_api.search_recipes_by_ingredients(ingredients=ingredients, number=9, limitLicense=True , ranking=2, fillIngredients=True)
 
     # Json to array conversion
     data = response.json()
