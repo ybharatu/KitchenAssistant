@@ -42,103 +42,132 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         # Set up checkboxes in remove Item screen
         self.checks = []
         self.to_remove = []
-        #self.initRemoveList()
 
+    # Changes screen to table view
     def changeDataFrame(self):
         print("Changed to Data frame")
         self.stackedWidget.setCurrentIndex(1)
 
+    # Changes screen to Home view
     def changeHomeFrame(self):
         print("Changed to Home frame")
         self.stackedWidget.setCurrentIndex(0)
 
+    # Changes screen to Add item view
     def addPage(self):
         print("Changed to Add Item Page")
         self.stackedWidget.setCurrentIndex(2)
         return
 
+    # Gets rid of existing text in add item script
     def resetItemForm(self):
         self.NameTextEdit.setText("")
         self.QuantityTextEdit.setText("")
         self.ExpireTextEdit.setText("")
 
+    # Adds item to Food database and Table
     def addItem(self):
+
+        # Init row and col numbers
         row = self.tableWidget.rowCount()
         self.tableWidget.setRowCount(row + 1)
         col = 0
 
+        # If name and quantity exists, create new row and add item to database
         if self.NameTextEdit.toPlainText() != "" and self.QuantityTextEdit.toPlainText() != "":
             row_data = [self.NameTextEdit.toPlainText(), self.QuantityTextEdit.toPlainText(), self.ExpireTextEdit.toPlainText()]
-            gui_add_item(food,self.NameTextEdit.toPlainText(),self.QuantityTextEdit.toPlainText(),self.ExpireTextEdit.toPlainText())
+            gui_add_item(food, self.NameTextEdit.toPlainText(), self.QuantityTextEdit.toPlainText(), self.ExpireTextEdit.toPlainText())
+        # TODO: Need to do something if needed values aren't entered
         else:
             print("Not all values")
             return
 
+        # Iterates through row_data (name, quantity, and expiration date)
         for item in row_data:
             cell = QtWidgets.QTableWidgetItem(str(item))
             cell.setForeground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             self.tableWidget.setItem(row, col, cell)
             col += 1
+
+        # Need to reset the form to prevent text from persisting
         self.resetItemForm()
         self.changeDataFrame()
 
+    # Initializes Table with all food in database
     def initTable(self):
         # Iterates through all items in database list and sets up table
         for entry in food.find():
+            # Sets up initial row and col numbers
             row = self.tableWidget.rowCount()
             self.tableWidget.setRowCount(row + 1)
             col = 0
+
+            # Initializes row_data
             name = entry.get("name")
             quantity = entry.get("quantity")
             expire = entry.get("expire")
             row_data = [name, quantity, expire]
+
+            # Iterates each item for each entry and fills the table
             for item in row_data:
                 cell = QtWidgets.QTableWidgetItem(str(item))
                 cell.setForeground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
                 self.tableWidget.setItem(row, col, cell)
                 col += 1
 
+    # Updating the table with added and removed items
     def updateTable(self):
+
+        # Iterates through rows of the table
         for row in range(1,self.tableWidget.rowCount()):
+            # Iterates through items selected to be removed
             for rem in self.to_remove:
                 print("Does " + self.tableWidget.item(row,0).text() + " == " + rem.text() + " ???")
+                # Remove row from table if names match
                 if self.tableWidget.item(row,0).text() == rem.text():
                     self.tableWidget.removeRow(row)
                     self.to_remove.remove(rem)
                     break
 
+    # Initializes the Remove list
     def initRemoveList(self):
-
+        # Iterates through all food in database
         for entry in food.find():
-            print(entry.get("name"))
+            # Creates checkbox object
             check = QtWidgets.QCheckBox()
-
             check.setText(entry.get("name"))
+
+            # Adds object to view
             self.verticalLayout.addWidget(check)
+            # Adjusts position of subsequent items
             if len(self.checks) != 0:
                 newHeight = self.checks[-1].geometry().height() + 1 * len(self.checks)  # Compensate for new checkbox
                 check.resize(self.geometry().width(), newHeight)
+            # Updates list of all checkbox objects
             self.checks.append(check)
 
 
+    # TODO: Downloads csv file of food list
     def downloadResults(self):
         return
 
+    # Removes items from database
     def removeItem(self):
-
+        # Iterates through checkboxes to record selected boxes
         for box in self.checks:
             if box.isChecked():
                 self.to_remove.append(box)
 
+        # Removes item from database and checkbox
         for rem in self.to_remove:
             item_name = rem.text()
-            #print(item_name)
             gui_remove_item(food, item_name)
             rem.setChecked(False)
             rem.deleteLater()
             self.verticalLayout.removeWidget(rem)
             self.checks.remove(rem)
 
+        # Remove all checkboxes
         for box in self.checks:
             self.verticalLayout.removeWidget(box)
             box.deleteLater()
@@ -148,6 +177,7 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
         self.updateTable()
         self.changeDataFrame()
 
+    # Changes screen to Remove item view
     def removePage(self):
         print("Changed to Remove Page")
         self.initRemoveList()
