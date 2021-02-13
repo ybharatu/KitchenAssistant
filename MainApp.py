@@ -130,16 +130,17 @@ class KitchenApp( QtWidgets.QMainWindow, Ui_MainWindow):
     # Updating the table with added and removed items
     def updateTable(self):
 
-        # Iterates through rows of the table
-        for row in range(1,self.tableWidget.rowCount()):
-            # Iterates through items selected to be removed
-            for rem in self.to_remove:
+        # Iterates through items selected to be removed
+        for rem in self.to_remove:
+            # Iterates through rows of the table
+            for row in range(1,self.tableWidget.rowCount()):
                 print("Does " + self.tableWidget.item(row,0).text() + " == " + rem.text() + " ???")
                 # Remove row from table if names match
                 if self.tableWidget.item(row,0).text() == rem.text():
                     self.tableWidget.removeRow(row)
-                    self.to_remove.remove(rem)
                     break
+
+        self.to_remove = []
 
     # Initializes the Remove list
     def initRemoveList(self):
