@@ -282,7 +282,7 @@ if __name__ == "__main__":
             print("Please specify input type (Video (-v), Image (-i), or Live (-l)")
             sys.exit()
 
-    #img1 = "TestImages/barcode1.png"
-    img1 = filename
+    img1 = "TestImages/barcode1.png"
+    #img1 = filename
     image = mpimg.imread(img1)
     find_barcode(image)
